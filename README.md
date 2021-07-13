@@ -17,7 +17,7 @@ Template also demonstrates how it works by implementing Rock Paper Scissors exam
 
 ## How to convert your Reach contract to a React website
 
-- Copy your compiled Reach artifact (index.main.mjs) to src/reach/build/ (If your filename is different change src/reach/DeployAttach.jsx:8 and src/reach/participants/Participants.jsx:12)
+- Copy your compiled Reach artifact (index.main.mjs) to src/reach/build/ (If your filename is different change src/reach/DeployAttach.jsx:7 and src/reach/participants/Participants.jsx:12)
 
 - (Optional) If you want to set contract arguments before starting the application, add relevant forms to get the data and pass it to the <DeployButton />
   e.g.
@@ -42,7 +42,7 @@ Template also demonstrates how it works by implementing Rock Paper Scissors exam
 
 > A common way to write Reach website is to divide the app (at least the part where we run the Reach app) to "views". Most of the time each participant function shows a different view to the user.
 
-- In the src/reach/participants/interfaces folder create a new file for each participant, filling their participant interfaces. For convention I recommend you to name them "`participantName + Interface.js`" (aliceInterface.ts for example). I added additional information inside the folder.
+- In the src/reach/participants/interfaces folder create a new file for each participant, filling their participant interfaces. For convention I recommend you to name them "`participantName + Interface.js`" (aliceInterface.js for example). I added additional information inside the folder.
 
 - In the src/reach/participants/views folder create a new file for each participant, filling their views; the HTML they'll see for each function. An easy way to do it is to switch props.state.view to render a different component.
 
@@ -62,3 +62,5 @@ export const Alice = ParticipantFactory({
   (e.g `<Route path="/app" exact component={RPS} />`)
 
 - That should be it. Run your site with `npm run start`. Add style and customize your site.
+
+(This file is converted from my TypeScript tutorial, if there is a mismatch between actual files, please notify me)

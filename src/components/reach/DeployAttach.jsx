@@ -6,7 +6,6 @@ import { setArgs, setContractInfo, setRole } from "../redux/actions/appActions";
 
 const Backend = require("./build/index.main.mjs");
 
-
 /**
  * @param props Contains all contract parameters
  * @returns A button you can use the instantiate the Reach application

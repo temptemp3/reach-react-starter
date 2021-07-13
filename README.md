@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# REACH REACT TEMPLATE (Using TS and Redux)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A template to use it with Reach frontends that makes it possible to stream-line the process.
+Template also demonstrates how it works by implementing Rock Paper Scissors example
 
-## Available Scripts
+## Prequisites
 
-In the project directory, you can run:
+- Node.js
+- npm
 
-### `yarn start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Clone the repo
+- Inside the project folder run `npm install package.json` to install the dependencies
+- In the same folder run `./reach devnet` to start the development network
+- Start the website by running `npm run start` in another terminal
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## How to convert your Reach contract to a React website
 
-### `yarn test`
+- Copy your compiled Reach artifact (index.main.mjs) to src/reach/build/ (If your filename is different change src/reach/DeployAttach.tsx:8 and src/reach/participants/Participants.tsx:12)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- (Optional) If you want to set contract arguments before starting the application, add relevant forms to get the data and pass it to the <DeployButton />
+  e.g.
 
-### `yarn build`
+  ```js
+  const myCtcArgument = 1;
+  return (
+    <>
+      // ...
+      <DeployButton role={"Alice"} ctcArg1={myCtcArgument} />
+    </>
+  );
+  ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  For example, wager amount for the Rock Paper Scissors is a contract parameter in this frotend and it is set in the src/views/Home.tsx
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  - (Optional) If you passed the contract argument(s) to DeployBuytton, navigate to src/reach/DeployAttach.tsx and set the contract arguments inside deploy()
+    function using
+    `dispatch(setArgs({ arg1: props.ctcArg1 }))`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Set the roles of deploying and attaching sides by simply passing `role={"Alice"}` inside DeployButton and AttachButton (replace "Alice" with your participant name). In the example these buttons are inside src/views/Home.tsx. You can set multiple roles by adding multiple AttachButton's.
 
-### `yarn eject`
+> A common way to write Reach website is to divide the app (at least the part where we run the Reach app) to "views". Most of the time each participant function shows a different view to the user.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- In the src/reach/participants/interfaces folder create a new file for each participant, filling their participant interfaces. For convention I recommend you to name them "`participantName + Interface.ts`" (aliceInterface.ts for example). I added additional information inside the folder.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- In the src/reach/participants/views folder create a new file for each participant, filling their views; the HTML they'll see for each function. An easy way to do it is to switch props.state.view to render a different component.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- In the src/reach/participants/Participants.tsx file add each participant as (replace Alice with your participant)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```js
+export const Alice = ParticipantFactory({
+  interface: aliceInterface,
+  views: AliceViews,
+  setBackend: Backend.Alice,
+});
+```
 
-## Learn More
+- In the src/views/ folder create a file for the application (For convention called `contractName.tsx`). Inside, return the participants inside Participants.tsx by checking the `appState.participant`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- In src/App.tsx update the route for /app to your application component. (Of course you'll need to import it first)
+  (e.g `<Route path="/app" exact component={RPS} />`)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- That should be it. Run your site with `npm run start`. Add style and customize your site.
